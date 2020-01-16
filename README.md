@@ -23,8 +23,8 @@ make
     meme [OPTION...]
 
     -d, --db arg     Path to SQLite database with tweets
-    -s, --size arg   Minimum size of the common substring (default: 40)
-    -n, --num arg    Minimum number of the common substrings (default: 5)
+    -s, --size arg   The size of the common substring (default: 40)
+    -n, --num arg    Minimum number of suffixes that contains the common substring (default: 5)
     -l, --limit arg  Limitation to the number of tweets to search from (default: 1000)
     ```
 
