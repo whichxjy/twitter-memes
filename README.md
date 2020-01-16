@@ -15,7 +15,9 @@ make
 
 ## Usage
 
-Run `./meme` in `build` directory:
+1. Download [twitter.db.gz](https://www.dropbox.com/s/5xnaf1mbdr1424p/twitter.db.gz?dl=0) and extract `twitter.db` from it.
+
+2. Run `./meme` in `build` directory:
 
 ```
 meme [OPTION...]
