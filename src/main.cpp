@@ -93,7 +93,7 @@ int main(int argc, char *argv[]) {
                     continue;
                 }
                 else {
-                    std::cout << "[Common substring: " << target << std::endl;
+                    std::cout << "[Common substring: " << target << "]" << std::endl;
                     std::vector<int> start_idxs;
                     for (int i = 0; i < tweet_found_num; i++) {
                         start_idxs.emplace_back((curr_it + i)->start_idx);

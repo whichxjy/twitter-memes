@@ -33,7 +33,7 @@ make
 Run `meme -d /path/to/twitter.db`:
 
 ```
-[Common substring:  a disclaimer and would like to mention 
+[Common substring:  a disclaimer and would like to mention ]
 
 ==================================================[ Tweet ]==================================================
 ⚠ ATTENTION
