@@ -24,10 +24,10 @@ inline bool isPrefix(const std::string& shorter, const std::string& longer) {
 int main(int argc, char *argv[]) {
     // path to SQLite database with tweets
     std::string DB_PATH;
-    // minimum size of the common substring
-    int MIN_COMMOM_SUBSTRING_SIZE = 40;
-    // minimum number of the common substrings
-    int MIM_COMMOM_SUBSTRING_NUM = 5;
+    // the size of the common substring
+    int COMMOM_SUBSTRING_SIZE = 40;
+    // minimum number of suffixes that contains the common substring
+    int MIN_COMMOM_NUM = 5;
     // limitation to the number of tweets to search from
     int TWEET_NUM_LIMIT = 1000;
 
@@ -35,8 +35,8 @@ int main(int argc, char *argv[]) {
 
     options.add_options()
         ("d, db", "Path to SQLite database with tweets", cxxopts::value<std::string>())
-        ("s, size", "Minimum size of the common substring (default: " + std::to_string(MIN_COMMOM_SUBSTRING_SIZE) + ")", cxxopts::value<unsigned int>())
-        ("n, num", "Minimum number of the common substrings (default: " + std::to_string(MIM_COMMOM_SUBSTRING_NUM) + ")", cxxopts::value<unsigned int>())
+        ("s, size", "The size of the common substring (default: " + std::to_string(COMMOM_SUBSTRING_SIZE) + ")", cxxopts::value<unsigned int>())
+        ("n, num", "Minimum number of suffixes that contains the common substring (default: " + std::to_string(MIN_COMMOM_NUM) + ")", cxxopts::value<unsigned int>())
         ("l, limit", "Limitation to the number of tweets to search from (default: " + std::to_string(TWEET_NUM_LIMIT) + ")", cxxopts::value<unsigned int>());
 
     auto result = options.parse(argc, argv);
@@ -49,10 +49,10 @@ int main(int argc, char *argv[]) {
         DB_PATH = result["d"].as<std::string>();
     }
     if (result.count("s") > 0) {
-        MIN_COMMOM_SUBSTRING_SIZE = result["s"].as<unsigned int>();
+        COMMOM_SUBSTRING_SIZE = result["s"].as<unsigned int>();
     }
     if (result.count("n") > 0) {
-        MIM_COMMOM_SUBSTRING_NUM = result["n"].as<unsigned int>();
+        MIN_COMMOM_NUM = result["n"].as<unsigned int>();
     }
     if (result.count("l") > 0) {
         TWEET_NUM_LIMIT = result["l"].as<unsigned int>();
@@ -79,17 +79,17 @@ int main(int argc, char *argv[]) {
             SuffixArray suffix_arr = createSuffixArray(big_str);
             for (SuffixArray::iterator curr_it = suffix_arr.begin(); curr_it != suffix_arr.end(); curr_it++) {
                 const std::string& curr_suffix_str = curr_it->str;
-                if (curr_suffix_str.size() < MIN_COMMOM_SUBSTRING_SIZE) {
+                if (curr_suffix_str.size() < COMMOM_SUBSTRING_SIZE) {
                     continue;
                 }
-                std::string target = curr_suffix_str.substr(0, MIN_COMMOM_SUBSTRING_SIZE);
+                std::string target = curr_suffix_str.substr(0, COMMOM_SUBSTRING_SIZE);
                 // find the first iter where the target is not a prefix
                 SuffixArray::const_iterator target_end_it = std::find_if_not(curr_it + 1, suffix_arr.end(), [target](const Suffix& suffix) {
                     return suffix.str.size() >= target.size() && isPrefix(target, suffix.str);
                 });
                 // check if the number of tweets we found is enough
                 int tweet_found_num = target_end_it - curr_it;
-                if (tweet_found_num < MIM_COMMOM_SUBSTRING_NUM) {
+                if (tweet_found_num < MIN_COMMOM_NUM) {
                     continue;
                 }
                 else {
