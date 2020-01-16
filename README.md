@@ -19,14 +19,14 @@ make
 
 2. Run `./meme` in `build` directory:
 
-```
-meme [OPTION...]
+    ```
+    meme [OPTION...]
 
--d, --db arg     Path to SQLite database with tweets
--s, --size arg   Minimum size of the common substring (default: 40)
--n, --num arg    Minimum number of the common substrings (default: 5)
--l, --limit arg  Limitation to the number of tweets to search from (default: 1000)
-```
+    -d, --db arg     Path to SQLite database with tweets
+    -s, --size arg   Minimum size of the common substring (default: 40)
+    -n, --num arg    Minimum number of the common substrings (default: 5)
+    -l, --limit arg  Limitation to the number of tweets to search from (default: 1000)
+    ```
 
 ## Example
 
