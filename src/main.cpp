@@ -21,6 +21,19 @@ inline bool isPrefix(const std::string& shorter, const std::string& longer) {
     return std::mismatch(shorter.begin(), shorter.end(), longer.begin()).first == shorter.end();
 }
 
+int searchTweet(const std::vector<Tweet>& tweets, int left, int right, int start_idx) {
+    while (left < right) {
+        int mid = left + (right - left) / 2;
+        if (tweets[mid].end_idx >= start_idx) {
+            right = mid;
+        }
+        else {
+            left = mid + 1;
+        }
+    }
+    return right;
+}
+
 int main(int argc, char *argv[]) {
     // path to SQLite database with tweets
     std::string DB_PATH;
@@ -110,24 +123,22 @@ int main(int argc, char *argv[]) {
         }
         else {
             // print tweets
-            for (const Tweet& tweet : tweets) {
-                if (tweet.end_idx < start_idxs.top()) {
-                    continue;
-                }
-                else {
-                    std::cout << std::endl
+            int curr_idx = 0;
+            while (curr_idx < tweets.size()) {
+                int target_idx = searchTweet(tweets, curr_idx, tweets.size() - 1, start_idxs.top());
+                std::cout << std::endl
                               << std::string(50, '=') << "[ Tweet ]" << std::string(50, '=') << std::endl
-                              << tweet.text << std::endl
+                              << tweets[target_idx].text << std::endl
                               << std::string(109, '=') << std::endl;
+                start_idxs.pop();
+                // remove repeated tweets
+                while (!start_idxs.empty() && tweets[target_idx].end_idx >= start_idxs.top()) {
                     start_idxs.pop();
-                    // remove repeated tweets
-                    while (!start_idxs.empty() && tweet.end_idx >= start_idxs.top()) {
-                        start_idxs.pop();
-                    }
-                    if (start_idxs.empty()) {
-                        break;
-                    }
                 }
+                if (start_idxs.empty()) {
+                    break;
+                }
+                curr_idx = target_idx + 1;
             }
         }
     }
