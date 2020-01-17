@@ -127,9 +127,9 @@ int main(int argc, char *argv[]) {
             while (curr_idx < tweets.size()) {
                 int target_idx = searchTweet(tweets, curr_idx, tweets.size() - 1, start_idxs.top());
                 std::cout << std::endl
-                              << std::string(50, '=') << "[ Tweet ]" << std::string(50, '=') << std::endl
-                              << tweets[target_idx].text << std::endl
-                              << std::string(109, '=') << std::endl;
+                          << std::string(50, '=') << "[ Tweet ]" << std::string(50, '=') << std::endl
+                          << tweets[target_idx].text << std::endl
+                          << std::string(109, '=') << std::endl;
                 start_idxs.pop();
                 // remove repeated tweets
                 while (!start_idxs.empty() && tweets[target_idx].end_idx >= start_idxs.top()) {
