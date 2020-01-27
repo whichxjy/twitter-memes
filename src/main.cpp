@@ -97,12 +97,13 @@ int main(int argc, char *argv[]) {
                 }
                 std::string target = curr_suffix_str.substr(0, MIN_COMMOM_SUBSTRING_SIZE);
                 // find the first iter where the target is not a prefix
-                SuffixArray::const_iterator target_end_it = std::find_if_not(curr_it + 1, suffix_arr.end(), [target](const Suffix& suffix) {
+                SuffixArray::iterator target_end_it = std::find_if_not(curr_it + 1, suffix_arr.end(), [target](const Suffix& suffix) {
                     return suffix.str.size() >= target.size() && isPrefix(target, suffix.str);
                 });
                 // check if the number of tweets we found is enough
                 int tweet_found_num = target_end_it - curr_it;
                 if (tweet_found_num < MIN_COMMOM_NUM) {
+                    curr_it = target_end_it - 1;
                     continue;
                 }
                 else {
